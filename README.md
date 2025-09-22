@@ -5,8 +5,8 @@
 [「上手试试 🔗」](https://bait.v2ai.org)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/images/screenshot_v0_1_dark_web.png">
-  <source media="(prefers-color-scheme: light)" srcset=".github/images/screenshot_v0_1_light_web.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_dark_admin.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_admin.png">
 </picture>
 
 > [!IMPORTANT]
