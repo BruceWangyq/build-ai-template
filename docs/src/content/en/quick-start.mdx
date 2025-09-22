@@ -1,0 +1,339 @@
+---
+title: "Quick Start"
+description: "Run your first AI application in 5 minutes"
+---
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+# ⚡ Quick Start
+
+This guide will help you run Build AI Template in 5 minutes and experience the complete AI application functionality.
+
+<Alert>
+  <AlertTitle>⚠️ System Requirements</AlertTitle>
+  <AlertDescription>
+    <ul className="mt-2 space-y-1">
+      <li>• CPU: 2 cores or more</li>
+      <li>• Memory: 4 GB or more</li>
+      <li>• Storage: 20 GB available space</li>
+      <li>• OS: Linux, macOS, or Windows</li>
+    </ul>
+  </AlertDescription>
+</Alert>
+
+## 🚀 Method 1: Docker One-Click Deployment (Recommended)
+
+This is the simplest and fastest deployment method, suitable for quick experience and production environment use.
+
+### Prerequisites
+
+- Docker >= 26.0
+- Docker Compose >= 2.25
+
+### Deployment Steps
+
+1. **Clone the Project**
+
+```bash
+git clone https://github.com/open-v2ai/build-ai-template.git
+cd build-ai-template/deploy/
+```
+
+2. **Configure Environment Variables**
+
+```bash
+# Copy environment variable template
+cp .env.example .env
+
+# Edit environment variable file
+nano .env  # or use your preferred editor
+```
+
+**Required Configuration**:
+
+```bash
+# AI Configuration (Required)
+AGENT_API_KEY=sk-proj-your-openai-api-key
+AGENT_BASE_URL=https://api.openai.com/v1
+AGENT_MODEL_NAME=gpt-4o-mini
+
+# Email Configuration (Required for login verification codes)
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-app-password
+MAIL_FROM=your-email@gmail.com
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+
+# Security Configuration (Recommended to modify)
+AUTH_SECRET_KEY=your-super-secret-key-here
+```
+
+<Alert>
+  <AlertTitle>📧 Email Configuration Instructions</AlertTitle>
+  <AlertDescription>
+    <div className="mt-2 space-y-2">
+      <p><strong>Gmail Users</strong>: Need to enable two-factor authentication and generate an app-specific password</p>
+      <p><strong>Other Email Providers</strong>: Please refer to your email service provider's SMTP configuration documentation</p>
+      <p><strong>Test Environment</strong>: You can use <code>AUTH_DEBUG_CODE=888888</code> to skip email verification</p>
+    </div>
+  </AlertDescription>
+</Alert>
+
+3. **Start Services**
+
+```bash
+# Start all services with one command
+docker compose up -d
+
+# Check service status
+docker compose ps
+
+# View logs (optional)
+docker compose logs -f
+```
+
+4. **Access Application**
+
+- **User Interface**: http://localhost:8080
+- **Admin Panel**: http://localhost:8080/admin
+- **API Documentation**: http://localhost:8080/api/docs
+
+<Alert>
+  <AlertTitle>🎉 First Login Tip</AlertTitle>
+  <AlertDescription>
+    The first user to log in via email verification will automatically receive administrator privileges!
+  </AlertDescription>
+</Alert>
+
+---
+
+## 🛠️ Method 2: Development Environment Setup
+
+Suitable for developers to perform feature development and customization.
+
+### Prerequisites
+
+- **Backend**: Python >= 3.12, uv >= 0.6
+- **Frontend**: Node.js >= 18.19, pnpm >= 10.11
+- **Database**: PostgreSQL and Redis
+
+### Step 1: Prepare Database
+
+```bash
+# Clone the project
+git clone https://github.com/open-v2ai/build-ai-template.git
+cd build-ai-template
+
+# Start PostgreSQL (using Docker)
+bash api/scripts/run_postgres.sh
+
+# Start Redis (using Docker)
+bash api/scripts/run_redis.sh
+```
+
+### Step 2: Configure and Run Backend
+
+```bash
+cd api/
+
+# Install dependencies
+uv sync
+
+# Activate virtual environment
+source venv/bin/activate  # Linux/macOS
+# or venv\Scripts\activate  # Windows
+
+# Configure environment variables
+cp .env.example .env
+# Edit .env file, configure database connection, AI API Key, etc.
+
+# Run database migrations
+alembic upgrade head
+
+# Start development server (port 8000)
+python -m app.main
+```
+
+### Step 3: Configure and Run Frontend
+
+```bash
+# Open new terminal window
+cd web/
+
+# Install dependencies
+pnpm install
+
+# Configure environment variables
+cp .env.example .env
+# Edit .env file
+
+# Start development server (port 3000)
+pnpm dev
+```
+
+### Step 4: Access Application
+
+- **User Interface**: http://localhost:3000
+- **Admin Panel**: http://localhost:3000/admin
+- **API Documentation**: http://localhost:8000/docs
+
+---
+
+## 🔧 Environment Variables Configuration
+
+### Backend Environment Variables (.env)
+
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-6">
+
+<Card>
+  <CardHeader>
+    <CardTitle>🤖 AI Configuration</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-2 text-sm">
+      <div><code>AGENT_API_KEY</code> - OpenAI API Key</div>
+      <div><code>AGENT_BASE_URL</code> - API Base URL</div>
+      <div><code>AGENT_MODEL_NAME</code> - Model Name</div>
+      <div><code>AGENT_MODEL_TEMPERATURE</code> - Temperature Parameter</div>
+    </div>
+  </CardContent>
+</Card>
+
+<Card>
+  <CardHeader>
+    <CardTitle>📧 Email Configuration</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-2 text-sm">
+      <div><code>MAIL_USERNAME</code> - Email Username</div>
+      <div><code>MAIL_PASSWORD</code> - Email Password/App Password</div>
+      <div><code>MAIL_SERVER</code> - SMTP Server</div>
+      <div><code>MAIL_PORT</code> - SMTP Port</div>
+    </div>
+  </CardContent>
+</Card>
+
+<Card>
+  <CardHeader>
+    <CardTitle>🗄️ Database Configuration</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-2 text-sm">
+      <div><code>POSTGRES_URL</code> - PostgreSQL Connection String</div>
+      <div><code>REDIS_URL</code> - Redis Connection String</div>
+    </div>
+  </CardContent>
+</Card>
+
+<Card>
+  <CardHeader>
+    <CardTitle>🔒 Security Configuration</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-2 text-sm">
+      <div><code>AUTH_SECRET_KEY</code> - JWT Signing Key</div>
+      <div><code>ENV</code> - Environment (dev/test/prod)</div>
+      <div><code>AUTH_DEBUG_CODE</code> - Debug Verification Code</div>
+    </div>
+  </CardContent>
+</Card>
+
+</div>
+
+### Frontend Environment Variables (.env)
+
+```bash
+# API Configuration
+NEXT_PUBLIC_API_URL=http://localhost:8000
+
+# Application Configuration
+HOSTNAME=0.0.0.0
+PORT=3000
+```
+
+---
+
+## ✅ Verify Deployment
+
+### 1. Check Service Status
+
+```bash
+# Docker deployment
+docker compose ps
+
+# Development environment
+curl http://localhost:8000/health  # Backend health check
+curl http://localhost:3000         # Frontend access
+```
+
+### 2. Test Core Features
+
+1. **User Registration and Login**
+   - Visit the application homepage
+   - Click login and enter email
+   - Check email verification code (or use debug code 888888)
+
+2. **AI Chat Testing**
+   - Create a new conversation after login
+   - Send test messages
+   - Verify AI responses and streaming display
+
+3. **Admin Panel Access**
+   - Visit `/admin` path
+   - View user management, conversation statistics, and other features
+
+---
+
+## 🚨 Common Issues
+
+### Deployment Issues
+
+<Alert>
+  <AlertTitle>❌ Service Startup Failed</AlertTitle>
+  <AlertDescription>
+    <div className="mt-2 space-y-2">
+      <p><strong>Check Port Usage</strong>: Ensure ports 8080, 8000, 3000 are not occupied</p>
+      <p><strong>Check Docker</strong>: Ensure Docker service is running</p>
+      <p><strong>View Logs</strong>: Use <code>docker compose logs</code> to view error information</p>
+    </div>
+  </AlertDescription>
+</Alert>
+
+### Configuration Issues
+
+<Alert>
+  <AlertTitle>❌ AI Response Failed</AlertTitle>
+  <AlertDescription>
+    <div className="mt-2 space-y-2">
+      <p><strong>Check API Key</strong>: Ensure OpenAI API Key is valid and has balance</p>
+      <p><strong>Check Network</strong>: Ensure server can access OpenAI API</p>
+      <p><strong>Check Model</strong>: Confirm model name is correct (e.g., gpt-4o-mini)</p>
+    </div>
+  </AlertDescription>
+</Alert>
+
+<Alert>
+  <AlertTitle>❌ Email Sending Failed</AlertTitle>
+  <AlertDescription>
+    <div className="mt-2 space-y-2">
+      <p><strong>Gmail Users</strong>: Need to enable two-factor authentication and use app-specific password</p>
+      <p><strong>Other Email Providers</strong>: Check if SMTP configuration is correct</p>
+      <p><strong>Temporary Solution</strong>: Use <code>AUTH_DEBUG_CODE=888888</code> to skip email verification</p>
+    </div>
+  </AlertDescription>
+</Alert>
+
+---
+
+## 🎯 Next Steps
+
+Congratulations! You have successfully deployed Build AI Template. Next, you can:
+
+1. **[Understanding System Architecture](/en/architecture)** - Deep dive into the project's technical architecture
+2. **[User Guide](/en/user-guide)** - Learn how to use various features
+3. **[Admin Guide](/en/admin-guide)** - Master the use of the admin panel
+4. **[Development Guide](/en/development)** - Start customizing and extending features
+5. **[Deployment Guide](/en/deployment)** - Learn production environment deployment best practices
+
+If you encounter issues, please check our **[Troubleshooting Guide](/en/troubleshooting)** or submit an Issue on GitHub.
