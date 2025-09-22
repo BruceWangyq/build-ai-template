@@ -2,6 +2,7 @@
 DOCKER_REGISTRY=v2ai
 API_IMAGE=$(DOCKER_REGISTRY)/bait-api
 WEB_IMAGE=$(DOCKER_REGISTRY)/bait-web
+DOCS_IMAGE=$(DOCKER_REGISTRY)/bait-docs
 VERSION=latest
 
 # 包含 .env 文件（如果存在）
@@ -85,5 +86,18 @@ build-push-api: build-api push-api
 build-push-web: build-web push-web
 build-push-docs: build-docs push-docs
 
+start:
+	@echo "Running all Docker images: $(API_IMAGE):$(VERSION), $(WEB_IMAGE):$(VERSION), $(DOCS_IMAGE):$(VERSION)..."
+	docker compose up -d
+	@echo "All Docker images running successfully: $(API_IMAGE):$(VERSION), $(WEB_IMAGE):$(VERSION), $(DOCS_IMAGE):$(VERSION)"
+
+stop:
+	@echo "Stopping all Docker images: $(API_IMAGE):$(VERSION), $(WEB_IMAGE):$(VERSION), $(DOCS_IMAGE):$(VERSION)..."
+	docker compose down
+	@echo "All Docker images stopped successfully: $(API_IMAGE):$(VERSION), $(WEB_IMAGE):$(VERSION), $(DOCS_IMAGE):$(VERSION)"
+
+restart: stop start
+deploy: build-all restart
+
 # Phony targets
-.PHONY: build-web build-api build-docs push-web push-api push-docs build-all push-all build-push-all build-push-web build-push-docs
+.PHONY: build-web build-api build-docs push-web push-api push-docs build-all push-all build-push-all build-push-web build-push-docs start stop restart deploy
