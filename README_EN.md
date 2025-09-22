@@ -2,12 +2,32 @@
 
 **Build AI Template** is an open-source AI application template for developers, using the `FastAPI` + `Next.js` tech stack. It integrates mainstream AI platforms and comes with built-in **user management**, **intelligent chat**, **membership payments**, and a **visual admin dashboard** to help you efficiently build modern AI products.
 
-[「Try it out 🔗」](https://bait.v2ai.org)
+[中文 README](README.md)
 
 > [!IMPORTANT]
 > 🚀 **Quick Start**: Click the [Use this template](https://github.com/open-v2ai/build-ai-template/generate) button in the top right corner of the page to create your new project!
 
-[中文 README](README.md) | [Online Docs](https://bait-docs.v2ai.org)
+[Live Demo 🔗](https://bait.v2ai.org)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_dark_web_en.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_web_en.png">
+  <img alt="BAIT Web" src="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_web_en.png" width="100%">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_dark_admin_en.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_admin_en.png">
+  <img alt="BAIT Admin" src="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_admin_en.png" width="100%">
+</picture>
+
+[Online Docs 🔗](https://bait-docs.v2ai.org)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_dark_docs_en.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_docs_en.png">
+  <img alt="Build AI Template" src="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_docs_en.png" width="100%">
+</picture>
 
 ## 🎯 Project Highlights
 

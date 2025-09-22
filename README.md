@@ -2,12 +2,32 @@
 
 **Build AI Template** 是一个面向开发者的开源 AI 应用模板，采用 `FastAPI` + `Next.js` 技术栈，集成主流 AI 平台，内置 **用户管理**、**智能对话**、**会员支付** 与 **可视化管理后台**，助力高效搭建现代化 AI 产品。
 
-[「上手试试 🔗」](https://bait.v2ai.org)
+[English README](README_EN.md)
 
 > [!IMPORTANT]
 > 🚀 **快速开始**：点击页面右上角的 [Use this template](https://github.com/open-v2ai/build-ai-template/generate) 按钮创建您的新项目！
 
-[English README](README_EN.md) | [在线文档](https://bait-docs.v2ai.org)
+[在线演示 🔗](https://bait.v2ai.org)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_dark_web.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_web.png">
+  <img alt="BAIT Web" src="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_web.png" width="100%">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_dark_admin.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_admin.png">
+  <img alt="BAIT Admin" src="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_admin.png" width="100%">
+</picture>
+
+[在线文档 🔗](https://bait-docs.v2ai.org)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_dark_docs.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_docs.png">
+  <img alt="Build AI Template" src="https://raw.githubusercontent.com/open-v2ai/build-ai-template/refs/heads/test/.github/images/screenshot_v0_1_light_docs.png" width="100%">
+</picture>
 
 ## 🎯 项目特色
 
