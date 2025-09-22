@@ -4,6 +4,11 @@
 
 [「上手试试 🔗」](https://bait.v2ai.org)
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/images/screenshot_v0_1_dark_web.png">
+  <source media="(prefers-color-scheme: light)" srcset=".github/images/screenshot_v0_1_light_web.png">
+</picture>
+
 > [!IMPORTANT]
 > 🚀 **快速开始**：点击页面右上角的 [Use this template](https://github.com/open-v2ai/build-ai-template/generate) 按钮创建您的新项目！
 
