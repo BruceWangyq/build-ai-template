@@ -39,11 +39,16 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD:-123456}
       REDIS_DB: ${REDIS_DB:-0}
       # 通知
+      MAIL_SEND_METHOD: ${MAIL_SEND_METHOD:-SMTP}
+      # SMTP
       MAIL_USERNAME: ${MAIL_USERNAME:-no-reply@example.com}
       MAIL_PASSWORD: ${MAIL_PASSWORD:-123456}
       MAIL_FROM: ${MAIL_FROM:-no-reply@example.com}
       MAIL_PORT: ${MAIL_PORT:-587}
       MAIL_SERVER: ${MAIL_SERVER:-smtp.example.com}
+      # Resend
+      RESEND_API_KEY: ${RESEND_API_KEY:-re_1234}
+      RESEND_MAIL_FROM: ${RESEND_MAIL_FROM:-onboarding@resend.dev}
       # 大模型与 Agent
       AGENT_API_KEY: ${AGENT_API_KEY:-sk-proj-***}
       AGENT_BASE_URL: ${AGENT_BASE_URL:-https://api.openai.ai/v1/chat/completions}

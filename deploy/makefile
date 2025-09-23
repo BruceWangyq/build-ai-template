@@ -96,8 +96,13 @@ stop:
 	docker compose down
 	@echo "All Docker images stopped successfully: $(API_IMAGE):$(VERSION), $(WEB_IMAGE):$(VERSION), $(DOCS_IMAGE):$(VERSION)"
 
-restart: stop start
+logs:
+	@echo "Viewing logs for all Docker images: $(API_IMAGE):$(VERSION), $(WEB_IMAGE):$(VERSION), $(DOCS_IMAGE):$(VERSION)..."
+	docker compose logs -f
+
+restart: stop start logs
+
 deploy: build-all restart
 
 # Phony targets
-.PHONY: build-web build-api build-docs push-web push-api push-docs build-all push-all build-push-all build-push-web build-push-docs start stop restart deploy
+.PHONY: build-web build-api build-docs push-web push-api push-docs build-all push-all build-push-all build-push-web build-push-docs start stop logs restart deploy

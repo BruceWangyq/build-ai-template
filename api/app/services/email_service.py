@@ -2,12 +2,15 @@ import random
 import string
 from pathlib import Path
 
+import resend
 from fastapi_mail import ConnectionConfig, FastMail, MessageSchema
 from jinja2 import Environment, FileSystemLoader
 from redis import Redis
 
 from app.core.config import settings
+from app.core.logging import get_logger
 
+logger = get_logger(__name__)
 # initialize Jinja2 environment
 TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "templates"
 jinja_env = Environment(loader=FileSystemLoader(TEMPLATES_DIR), autoescape=True)
@@ -25,6 +28,9 @@ conf = ConnectionConfig(
 )
 fastmail = FastMail(conf)
 
+# initialize Resend
+resend.api_key = settings.RESEND_API_KEY
+
 
 # Generate verification code
 def generate_verification_code():
@@ -36,45 +42,61 @@ def generate_verification_code():
 
 async def send_verification_code(email: str, lang: str, redis: Redis, purpose: str = "login") -> bool:
     """Send verification code to the specified email and store it in Redis, supports multiple language templates and purposes"""
-    # Use default code in dev/test environment, don't send email
     if settings.AUTH_IS_DEBUG:
         code = settings.AUTH_DEBUG_CODE
-        # Store code with purpose prefix
-        code_key = f"bait-api:code:{purpose}:{email}"
-        redis.setex(code_key, 300, code)  # 5 minutes = 300 seconds
-        return True
-
-    # Send email in prod environment
-    code = generate_verification_code()
+    else:
+        code = generate_verification_code()
+    
     # Store code with purpose prefix
     code_key = f"bait-api:code:{purpose}:{email}"
     redis.setex(code_key, 300, code)  # 5 minutes = 300 seconds
 
-    # Choose template based on purpose and language
-    if purpose == "register":
-        if lang == "zh":
-            template_name = "email_code_register_mail_template_zh.html"
-        else:
-            template_name = "email_code_register_mail_template_en.html"
-        subject = "Build AI Template Registration Code" if lang == "en" else "Build AI Template 的注册验证码"
-    elif purpose == "reset":
-        if lang == "zh":
-            template_name = "email_code_reset_mail_template_zh.html"
-        else:
-            template_name = "email_code_reset_mail_template_en.html"
-        subject = "Build AI Template Password Reset Code" if lang == "en" else "Build AI Template 的密码重置验证码"
-    else:  # login
-        if lang == "zh":
-            template_name = "email_code_login_mail_template_zh.html"
-        else:
-            template_name = "email_code_login_mail_template_en.html"
-        subject = "Build AI Template Login Code" if lang == "en" else "Build AI Template 的登录验证码"
-    template = jinja_env.get_template(template_name)
-    html_body = template.render(code=code)
+    if not settings.AUTH_IS_DEBUG:
+        # Choose template based on purpose and language
+        if purpose == "register":
+            if lang == "zh":
+                template_name = "email_code_register_mail_template_zh.html"
+            else:
+                template_name = "email_code_register_mail_template_en.html"
+            subject = "Build AI Template Registration Code" if lang == "en" else "Build AI Template 的注册验证码"
+        elif purpose == "reset":
+            if lang == "zh":
+                template_name = "email_code_reset_mail_template_zh.html"
+            else:
+                template_name = "email_code_reset_mail_template_en.html"
+            subject = "Build AI Template Password Reset Code" if lang == "en" else "Build AI Template 的密码重置验证码"
+        else:  # login
+            if lang == "zh":
+                template_name = "email_code_login_mail_template_zh.html"
+            else:
+                template_name = "email_code_login_mail_template_en.html"
+            subject = "Build AI Template Login Code" if lang == "en" else "Build AI Template 的登录验证码"
+        template = jinja_env.get_template(template_name)
+        html_body = template.render(code=code)
 
-    message = MessageSchema(subject=subject, recipients=[email], body=html_body, subtype="html")
-    await fastmail.send_message(message)
-    return True
+        logger.info(f"Send {code} to {email} with {settings.MAIL_SEND_METHOD}")
+        if settings.MAIL_SEND_METHOD == "RESEND":
+            try:
+                r = resend.Emails.send(
+                    {
+                        "from": settings.RESEND_MAIL_FROM,
+                        "to": email,
+                        "subject": subject,
+                        "html": html_body,
+                    }
+                )
+                logger.info(f"Resend email sent successfully: {r}")
+            except Exception as e:
+                logger.error(f"Resend email sent failed: {e}")
+                raise e
+        else:
+            try:
+                message = MessageSchema(subject=subject, recipients=[email], body=html_body, subtype="html")
+                await fastmail.send_message(message)
+                logger.info(f"SMTP email sent successfully: {message}")
+            except Exception as e:
+                logger.error(f"SMTP email sent failed: {e}")
+                raise e
 
 
 def verify_code(email: str, code: str, redis: Redis, purpose: str = "login") -> bool:

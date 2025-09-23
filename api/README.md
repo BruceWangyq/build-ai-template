@@ -66,6 +66,21 @@ cp .env.example .env
 # Edit .env file
 ```
 
+### Email Service Configuration
+
+The system supports two email sending methods: `SMTP` and `Resend`. You can configure this via the `MAIL_SEND_METHOD` environment variable.
+
+- **`MAIL_SEND_METHOD=SMTP`**: Uses traditional SMTP servers for sending emails. You need to configure the following variables:
+  - `MAIL_USERNAME`: SMTP username
+  - `MAIL_PASSWORD`: SMTP password
+  - `MAIL_FROM`: Sender's email address
+  - `MAIL_PORT`: SMTP server port
+  - `MAIL_SERVER`: SMTP server address
+
+- **`MAIL_SEND_METHOD=RESEND`**: Uses the Resend service for sending emails. This is useful when the cloud provider disables SMTP. You need to configure the following variables:
+  - `RESEND_API_KEY`: Your Resend API Key
+  - `RESEND_MAIL_FROM`: The sender's email address registered with Resend
+
 ### Local Development
 
 use [uv](https://docs.astral.sh/uv/getting-started/installation/) to install the dependencies.

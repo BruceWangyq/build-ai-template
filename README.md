@@ -42,50 +42,38 @@
 
 ### 🤖 智能 Agent 系统
 
-- [x] **多平台支持**：集成 OpenAI、Dify 等主流 AI 平台（FastGPT、Coze 还在开发中...）
+- [x] **多平台支持**：集成 OpenAI、Dify 等主流 AI 平台
 - [x] **Agent 管理**：可视化创建、编辑和管理多个 AI 助手
-- [x] **模型配置**：灵活的模型参数配置（温度、Token 限制等）
-- [x] **连接测试**：实时测试 Agent 可用性和响应速度
 - [x] **流式响应**：支持打字机效果的实时流式对话
 
 ### 👥 用户管理系统
 
 - [x] **邮箱验证码登录**：无需密码，安全便捷的邮箱验证登录
 - [x] **会员体系**：支持免费版、月费版、年费版等多级会员
-- [x] **使用统计**：详细的消息、Token、对话次数统计
 - [x] **权限管理**：用户和管理员角色分离
-- [x] **自动管理员**：首个登录用户自动获得管理员权限
 
 ### 💬 对话系统
 
 - [x] **实时对话**：流式响应展示 AI 思考过程
 - [x] **对话历史**：完整的对话记录和管理
 - [x] **多轮对话**：支持上下文连续对话
-- [x] **Markdown 渲染**：支持代码高亮和格式化显示
-- [x] **使用限制**：基于会员等级的使用量控制
 
 ### 🛠 管理后台
 
 - [x] **数据统计**：用户、对话、消息等核心数据可视化
 - [x] **用户管理**：用户查看、编辑、删除和权限管理
-- [x] **对话管理**：查看所有用户对话记录和详情
 - [x] **Agent 管理**：AI 助手的创建、配置和状态监控
-- [x] **系统监控**：实时系统状态和性能指标
 
 ### 🌍 国际化与界面
 
 - [x] **多语言支持**：完整的中英文国际化
 - [x] **响应式设计**：完美适配桌面端和移动端
 - [x] **深色模式**：支持明暗主题切换
-- [x] **现代 UI**：基于 Shadcn UI 的美观界面
-- [x] **无障碍设计**：符合可访问性标准
 
 ### 🚀 部署与运维
 
 - [x] **Docker 部署**：完整的容器化部署方案
-- [x] **环境配置**：灵活的环境变量配置
 - [x] **数据库迁移**：Alembic 自动化数据库版本管理
-- [x] **健康检查**：服务状态监控和自动恢复
 - [x] **反向代理**：Nginx 负载均衡和静态文件服务
 
 ## 技术栈
@@ -93,8 +81,7 @@
 ### 后端技术
 
 - **框架**：FastAPI + Python 3.12
-- **数据库**：PostgreSQL + SQLModel + Alembic
-- **缓存**：Redis
+- **数据库**：PostgreSQL + SQLModel + Alembic + Redis
 - **AI 集成**：OpenAI API + 多平台 Agent 支持
 - **认证**：JWT + 邮箱验证码
 - **包管理**：uv
@@ -152,31 +139,70 @@
    **必需配置项**：
 
    ```bash
-   # AGENT 配置 (必填)
+   # AI 配置（必填）
    AGENT_API_KEY=sk-proj-***
    AGENT_BASE_URL=https://api.openai.ai/v1/chat/completions
    AGENT_MODEL_NAME=gpt-4.1-mini
 
-   # 邮件配置 (必填，用于登录验证码)
-   MAIL_USERNAME=no-reply@example.com
-   MAIL_PASSWORD=123456
-   MAIL_FROM=no-reply@example.com
+   # 邮件配置（必填，用于登录验证码）
+   # 方式一：使用 SMTP
+   MAIL_SEND_METHOD=SMTP
+   MAIL_USERNAME=your-email@gmail.com
+   MAIL_PASSWORD=your-app-password
+   MAIL_FROM=your-email@gmail.com
+   MAIL_SERVER=smtp.gmail.com
    MAIL_PORT=587
-   MAIL_SERVER=smtp.example.com
+
+   # 方式二：使用 Resend
+   # MAIL_SEND_METHOD=RESEND
+   # RESEND_API_KEY=re_your-resend-api-key
+   # RESEND_MAIL_FROM=your-email@your-domain.com
+
+   # Stripe 配置（必填，用于支付模块）
+   STRIPE_PUBLIC_KEY=pk-test-***
+   STRIPE_PRIVATE_KEY=sk-test-***
+   STRIPE_WEBHOOK_SECRET=whsec-***
+
+   # 安全配置（建议修改）
+   AUTH_SECRET_KEY=your-super-secret-key-here
    ```
 
-3. **启动服务**
+3. **打包镜像**
 
    ```bash
-   docker compose up -d
+   make build-all
    ```
 
-4. **访问应用**
-   - **用户界面**：`http://localhost:8081`
-   - **管理后台**：`http://localhost:8081/admin`
-   - **使用文档**：`http://localhost:8082`
+4. **启动服务**
+
+   ```bash
+   # 一键启动所有服务
+   docker compose up -d
+
+   # 查看服务状态
+   docker compose ps
+
+   # 查看日志（可选）
+   docker compose logs -f
+   ```
+
+5. **访问应用**
+
+- **用户界面**: <http://localhost:8081>
+- **管理后台**: <http://localhost:8081/admin>
+- **API 文档**: <http://localhost:8081/v1/api/docs>
+- **项目文档**: <http://localhost:8082>
 
 ### 方式二：开发环境运行
+
+适合开发者进行功能开发和定制。
+
+**前置要求:**
+
+- **后端**：Python >= 3.12，uv >= 0.6
+- **前端**：Node.js >= 18.19，pnpm >= 10.11
+
+**运行步骤:**
 
 1. **克隆仓库**
 
@@ -206,23 +232,49 @@
    uv sync
 
    # 激活虚拟环境
-   source venv/bin/activate
+   source venv/bin/activate  # Linux/macOS
+   # 或 venv\Scripts\activate  # Windows
 
    # 配置环境变量
    cp .env.example .env
-   # 编辑 .env 文件，配置数据库连接、AGENT API Key 等
+   # 编辑 .env 文件
+   vim .env
 
-   # 运行数据库迁移
+   # AI 配置（必填）
+   AGENT_API_KEY=sk-proj-***
+   AGENT_BASE_URL=https://api.openai.ai/v1/chat/completions
+   AGENT_MODEL_NAME=gpt-4.1-mini
+
+   # 邮件配置（必填，用于登录验证码）
+   # 方式一：使用 SMTP
+   MAIL_SEND_METHOD=SMTP
+   MAIL_USERNAME=your-email@gmail.com
+   MAIL_PASSWORD=your-app-password
+   MAIL_FROM=your-email@gmail.com
+   MAIL_SERVER=smtp.gmail.com
+   MAIL_PORT=587
+
+   # 方式二：使用 Resend
+   # MAIL_SEND_METHOD=RESEND
+   # RESEND_API_KEY=re_your-resend-api-key
+   # RESEND_MAIL_FROM=your-email@your-domain.com
+
+   # Stripe 配置（必填，用于支付模块）
+   STRIPE_PUBLIC_KEY=pk-test-***
+   STRIPE_PRIVATE_KEY=sk-test-***
+   STRIPE_WEBHOOK_SECRET=whsec-***
+
+   # 运行数据库迁移（可选）
    alembic upgrade head
 
    # 启动开发服务器（端口 8000）
    python -m app.main
    ```
 
-   **配置支付模块（可选）**
+4. **配置支付模块**
 
    ```bash
-   # 新开一个终端执行以下命令
+   # 新开终端
    cd api/
    source venv/bin/activate
 
@@ -233,7 +285,7 @@
    STRIPE_WEBHOOK_SECRET=whsec_cexxx
    ```
 
-4. **配置并运行前端**
+5. **配置并运行前端**
 
    > 依赖要求：Node.js >= 18.19，pnpm >= 10.11
 
@@ -246,16 +298,19 @@
 
    # 配置环境变量
    cp .env.example .env
-   # 编辑 .env 文件，配置 API 地址等
+   vim .env
+   # 加入 API 地址
+   NEXT_PUBLIC_API_URL=http://localhost:8000
 
    # 启动开发服务器（端口 3000）
    pnpm dev
    ```
 
-5. **访问应用**
-   - **用户界面**：`http://localhost:3000`
-   - **管理后台**：`http://localhost:3000/admin`
-   - **使用文档**：`http://localhost:4000`
+6. **访问应用**
+   - **用户界面**: <http://localhost:3000>
+   - **管理后台**: <http://localhost:3000/admin>
+   - **API 文档**: <http://localhost:3000/v1/api/docs>
+   - **项目文档**: <http://localhost:4000>
 
 > [!NOTE]
 >
@@ -271,15 +326,16 @@
 - **AGENT 响应失败**:
   - **检查 API Key**：确保 AGENT API Key 有效且有余额。
   - **检查网络**：确保服务器可以访问 AGENT API。
-  - **检查模型**：确认模型名称正确（如 `gpt-4o-mini`）。
+  - **检查模型**：确认模型名称正确（如 `gpt-4.1-mini`）。
 - **邮件发送失败**:
+  - **云厂商封禁**：大多数云厂商可能会封禁 SMTP 服务，可以使用 [Resend](https://resend.com/) 代替。
   - **测试环境**：可以设置 `AUTH_IS_DEBUG=True` 和 `AUTH_DEBUG_CODE=888888`，实现跳过邮件验证码直接登录，便于本地开发和测试。
 - **支付模块配置失败**:
   - **检查 Stripe**：确保 Stripe 服务正在运行。
   - **检查 webhook 密钥**：确保 webhook 密钥正确。
   - **检查 Stripe 账户**：确保 Stripe 账户正确。
 
-## 项目架构
+## 开发指南
 
 ### 系统架构图
 
@@ -317,38 +373,6 @@ graph TD
     APP_B --> D_RD
     APP_B --> D_AGENT
 ```
-
-### 核心模块
-
-#### 用户认证模块
-
-- 邮箱验证码登录（无需密码）
-- JWT Token 认证
-- 用户权限管理（用户/管理员）
-- 会员体系（免费/月费/年费）
-
-#### AGENT Agent 模块
-
-- 多平台集成：OpenAI、Dify
-- 流式响应处理
-- 模型参数配置
-- 连接状态监控
-
-#### 对话系统模块
-
-- 实时流式对话
-- 消息历史管理
-- 使用量统计
-- Markdown 渲染
-
-#### 管理后台模块
-
-- 用户管理和统计
-- 对话记录查看
-- Agent 配置管理
-- 系统监控面板
-
-## 开发指南
 
 ### 目录结构
 
