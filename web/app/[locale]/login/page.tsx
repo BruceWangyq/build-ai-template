@@ -51,6 +51,22 @@ export default function LoginPage() {
   const [newPasswordError, setNewPasswordError] = useState("");
   const [codeError, setCodeError] = useState("");
 
+  // State for random illustration
+  const [randomIllustration, setRandomIllustration] = useState<string>('');
+
+  // Select a random illustration on component mount (client-side)
+  useEffect(() => {
+    const illustrations = [
+      '/login_images/undraw_coffee-with-friends_ocg2.svg',
+      '/login_images/undraw_shared-workspace_6y9d.svg',
+      '/login_images/undraw_work-from-anywhere_tpk5.svg',
+      '/login_images/undraw_working-from-anywhere_33m9.svg',
+      '/login_images/undraw_team-collaboration_phnf.svg'
+    ];
+    const randomIndex = Math.floor(Math.random() * illustrations.length);
+    setRandomIllustration(illustrations[randomIndex]);
+  }, []);
+
   // validate email format
   function isValidEmail(email: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -502,19 +518,20 @@ export default function LoginPage() {
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
-          {/* Left side - Image */}
-          <div className="relative bg-gray-200 dark:bg-gray-800 flex items-center justify-center p-8">
-            <div className="text-center space-y-6">
+          {/* Left side - Illustration and Logo */}
+          <div className="relative hidden lg:flex flex-col items-center justify-center gap-10 p-8 bg-gray-50 dark:bg-gray-900">
+            {/* Logo and Slogan */}
+            <div className="text-center space-y-4">
               <div className="flex justify-center">
-                <Image 
-                  src="/logo.svg" 
-                  alt="Logo" 
-                  width={120} 
-                  height={120}
+                <Image
+                  src="/logo.svg"
+                  alt="Logo"
+                  width={100}
+                  height={100}
                   className="drop-shadow-lg"
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
                   {t('app.fullName')}
                 </h2>
@@ -522,6 +539,19 @@ export default function LoginPage() {
                   {t('app.slogan')}
                 </p>
               </div>
+            </div>
+
+            {/* Illustration */}
+            <div className="flex justify-center">
+              {randomIllustration && (
+                <Image
+                  src={randomIllustration}
+                  alt="Work from anywhere illustration"
+                  width={340}
+                  height={340}
+                  priority
+                />
+              )}
             </div>
           </div>
           
