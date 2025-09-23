@@ -79,6 +79,7 @@ dependencies = [
     { name = "python-dotenv" },
     { name = "python-jose" },
     { name = "redis" },
+    { name = "resend" },
     { name = "sqlalchemy" },
     { name = "sqlmodel" },
     { name = "stripe" },
@@ -109,6 +110,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = "~=1.1.0" },
     { name = "python-jose", specifier = ">=3.4.0" },
     { name = "redis", specifier = ">=6.0.0" },
+    { name = "resend", specifier = ">=0.6.0" },
     { name = "sqlalchemy", specifier = ">=2.0.40" },
     { name = "sqlmodel", specifier = ">=0.0.24" },
     { name = "stripe", specifier = ">=8.0.0" },
@@ -855,6 +857,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c9/74/b3ff8e6c8446842c3f5c837e9c3dfcfe2018ea6ecef224c710c85ef728f4/requests-2.32.5.tar.gz", hash = "sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf", size = 134517, upload_time = "2025-08-18T20:46:02.573Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1e/db/4254e3eabe8020b458f1a747140d32277ec7a271daf1d235b70dc0b4e6e3/requests-2.32.5-py3-none-any.whl", hash = "sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6", size = 64738, upload_time = "2025-08-18T20:46:00.542Z" },
+]
+
+[[package]]
+name = "resend"
+version = "2.14.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f9/31/957c143f433bfcaff30c733ee7a63484f2abb10c36521640619d1e44a7af/resend-2.14.0.tar.gz", hash = "sha256:2c5385ca8bc72aafc494e747818a6c514e51bb1199213ffd02d62f24aa78b3f2", size = 15762, upload_time = "2025-09-20T00:26:44.742Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/46/f5/7039cbd5917d8518eba94950416af557fd1ab7f30e21aff8c35854e1d229/resend-2.14.0-py2.py3-none-any.whl", hash = "sha256:1f5aea2966b59695f3af8571d75fb4b769b6d2ecf6b8d0f8c6ca8de1dffb6c12", size = 22584, upload_time = "2025-09-20T00:26:43.503Z" },
 ]
 
 [[package]]

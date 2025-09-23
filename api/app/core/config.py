@@ -53,16 +53,23 @@ class Settings:
         return f"redis://{self.REDIS_USER}:{self.REDIS_PASSWORD}@{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
 
     # 邮件服务配置
+    MAIL_SEND_METHOD: str = os.getenv("MAIL_SEND_METHOD", "SMTP")  # 发送邮件的方式，可选值为 SMTP 或 RESEND
+
+    # SMTP 配置 (当 MAIL_SEND_METHOD = "SMTP" 时使用)
     MAIL_USERNAME: str = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD: str = os.getenv("MAIL_PASSWORD")
     MAIL_FROM: str = os.getenv("MAIL_FROM")
     MAIL_PORT: int = int(os.getenv("MAIL_PORT", "587"))
     MAIL_SERVER: str = os.getenv("MAIL_SERVER")
 
+    # Resend 配置 (当 MAIL_SEND_METHOD = "RESEND" 时使用)
+    RESEND_API_KEY: str = os.getenv("RESEND_API_KEY")
+    RESEND_MAIL_FROM: str = os.getenv("RESEND_MAIL_FROM")
+
     # openai
     AGENT_API_KEY: str = os.getenv("AGENT_API_KEY")
     AGENT_BASE_URL: str = os.getenv("AGENT_BASE_URL", "https://api.openai.com/v1/chat/completions")
-    AGENT_MODEL_NAME: str = os.getenv("AGENT_MODEL_NAME", "gpt-4o-mini")
+    AGENT_MODEL_NAME: str = os.getenv("AGENT_MODEL_NAME", "gpt-4.1-mini")
     AGENT_MODEL_TEMPERATURE: float = float(os.getenv("AGENT_MODEL_TEMPERATURE", "0.7"))
 
     # stripe payment

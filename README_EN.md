@@ -33,7 +33,7 @@
 
 - **🚀 Out-of-the-Box**: A complete AI application solution, no need to start from scratch.
 - **🔧 Highly Customizable**: Modular design for easy extension and customization of features.
-- **🌍 Multi-platform Support**: Integrates with mainstream AI platforms like OpenAI, Dify, FastGPT, Coze.
+- **🌍 Multi-platform Support**: Integrates with mainstream AI platforms like OpenAI, Dify, FastGPT, and Coze.
 - **📱 Modern Interface**: Beautiful responsive design based on Shadcn UI.
 - **🔒 Enterprise-grade Security**: Comprehensive user authentication and permission management.
 - **📊 Data Insights**: Detailed usage statistics and an admin dashboard.
@@ -42,50 +42,38 @@
 
 ### 🤖 Intelligent Agent System
 
-- [x] **Multi-platform Support**: Integrates with mainstream AI platforms like OpenAI and Dify (FastGPT, Coze are under development...).
+- [x] **Multi-platform Support**: Integrates with mainstream AI platforms like OpenAI and Dify.
 - [x] **Agent Management**: Visually create, edit, and manage multiple AI assistants.
-- [x] **Model Configuration**: Flexible model parameter settings (temperature, token limits, etc.).
-- [x] **Connection Testing**: Real-time testing of Agent availability and response speed.
 - [x] **Streaming Response**: Real-time streaming chat with a typewriter effect.
 
 ### 👥 User Management System
 
 - [x] **Email Verification Code Login**: Secure and convenient passwordless login with email verification.
 - [x] **Membership System**: Supports multiple tiers like Free, Monthly, and Yearly plans.
-- [x] **Usage Statistics**: Detailed statistics for messages, tokens, and conversation counts.
 - [x] **Permission Management**: Separation of user and administrator roles.
-- [x] **Auto Admin**: The first user to log in automatically gets administrator privileges.
 
 ### 💬 Chat System
 
 - [x] **Real-time Chat**: Streaming responses to show the AI's thinking process.
 - [x] **Chat History**: Complete conversation records and management.
 - [x] **Multi-turn Conversation**: Supports context-aware continuous dialogue.
-- [x] **Markdown Rendering**: Supports code highlighting and formatted display.
-- [x] **Usage Limits**: Controls usage based on membership level.
 
 ### 🛠 Admin Dashboard
 
 - [x] **Data Analytics**: Visualization of core data like users, chats, and messages.
 - [x] **User Management**: View, edit, delete users, and manage permissions.
-- [x] **Chat Management**: View all user conversation records and details.
 - [x] **Agent Management**: Create, configure, and monitor AI assistants.
-- [x] **System Monitoring**: Real-time system status and performance metrics.
 
 ### 🌍 Internationalization & UI
 
 - [x] **Multi-language Support**: Complete internationalization for Chinese and English.
 - [x] **Responsive Design**: Perfectly adapts to both desktop and mobile devices.
 - [x] **Dark Mode**: Supports switching between light and dark themes.
-- [x] **Modern UI**: A beautiful interface based on Shadcn UI.
-- [x] **Accessibility**: Complies with accessibility standards.
 
 ### 🚀 Deployment & Operations
 
 - [x] **Docker Deployment**: A complete containerized deployment solution.
-- [x] **Environment Configuration**: Flexible environment variable configuration.
 - [x] **Database Migration**: Automated database version management with Alembic.
-- [x] **Health Checks**: Service status monitoring and automatic recovery.
 - [x] **Reverse Proxy**: Nginx for load balancing and static file serving.
 
 ## Tech Stack
@@ -93,8 +81,7 @@
 ### Backend Technologies
 
 - **Framework**: FastAPI + Python 3.12
-- **Database**: PostgreSQL + SQLModel + Alembic
-- **Cache**: Redis
+- **Database**: PostgreSQL + SQLModel + Alembic + Redis
 - **AI Integration**: OpenAI API + Multi-platform Agent support
 - **Authentication**: JWT + Email verification code
 - **Package Manager**: uv
@@ -158,25 +145,64 @@ This is the simplest and fastest way to deploy, suitable for quick trials and pr
    AGENT_MODEL_NAME=gpt-4.1-mini
 
    # Mail Configuration (required for login verification codes)
-   MAIL_USERNAME=no-reply@example.com
-   MAIL_PASSWORD=123456
-   MAIL_FROM=no-reply@example.com
+   # Method 1: Use SMTP
+   MAIL_SEND_METHOD=SMTP
+   MAIL_USERNAME=your-email@gmail.com
+   MAIL_PASSWORD=your-app-password
+   MAIL_FROM=your-email@gmail.com
+   MAIL_SERVER=smtp.gmail.com
    MAIL_PORT=587
-   MAIL_SERVER=smtp.example.com
+
+   # Method 2: Use Resend
+   # MAIL_SEND_METHOD=RESEND
+   # RESEND_API_KEY=re_your-resend-api-key
+   # RESEND_MAIL_FROM=your-email@your-domain.com
+
+   # Stripe Configuration (required for payment module)
+   STRIPE_PUBLIC_KEY=pk-test-***
+   STRIPE_PRIVATE_KEY=sk-test-***
+   STRIPE_WEBHOOK_SECRET=whsec-***
+
+   # Security Configuration (recommended to change)
+   AUTH_SECRET_KEY=your-super-secret-key-here
    ```
 
-3. **Start the services**
+3. **Build images**
 
    ```bash
-   docker compose up -d
+   make build-all
    ```
 
-4. **Access the application**
-   - **User Interface**: `http://localhost:8081`
-   - **Admin Dashboard**: `http://localhost:8081/admin`
-   - **Documentation**: `http://localhost:8082`
+4. **Start the services**
+
+   ```bash
+   # Start all services with one command
+   docker compose up -d
+
+   # Check service status
+   docker compose ps
+
+   # View logs (optional)
+   docker compose logs -f
+   ```
+
+5. **Access the application**
+
+- **User Interface**: <http://localhost:8081>
+- **Admin Dashboard**: <http://localhost:8081/admin>
+- **API Docs**: <http://localhost:8081/v1/api/docs>
+- **Project Docs**: <http://localhost:8082>
 
 ### Method 2: Development Environment
+
+Suitable for developers for feature development and customization.
+
+**Prerequisites:**
+
+- **Backend**: Python >= 3.12, uv >= 0.6
+- **Frontend**: Node.js >= 18.19, pnpm >= 10.11
+
+**Execution Steps:**
 
 1. **Clone the repository**
 
@@ -206,23 +232,49 @@ This is the simplest and fastest way to deploy, suitable for quick trials and pr
    uv sync
 
    # Activate virtual environment
-   source venv/bin/activate
+   source venv/bin/activate  # Linux/macOS
+   # Or venv\Scripts\activate  # Windows
 
    # Configure environment variables
    cp .env.example .env
-   # Edit the .env file to configure database connection, AGENT API Key, etc.
+   # Edit the .env file
+   vim .env
 
-   # Run database migrations
+   # AI Configuration (required)
+   AGENT_API_KEY=sk-proj-***
+   AGENT_BASE_URL=https://api.openai.ai/v1/chat/completions
+   AGENT_MODEL_NAME=gpt-4.1-mini
+
+   # Mail Configuration (required for login verification codes)
+   # Method 1: Use SMTP
+   MAIL_SEND_METHOD=SMTP
+   MAIL_USERNAME=your-email@gmail.com
+   MAIL_PASSWORD=your-app-password
+   MAIL_FROM=your-email@gmail.com
+   MAIL_SERVER=smtp.gmail.com
+   MAIL_PORT=587
+
+   # Method 2: Use Resend
+   # MAIL_SEND_METHOD=RESEND
+   # RESEND_API_KEY=re_your-resend-api-key
+   # RESEND_MAIL_FROM=your-email@your-domain.com
+
+   # Stripe Configuration (required for payment module)
+   STRIPE_PUBLIC_KEY=pk-test-***
+   STRIPE_PRIVATE_KEY=sk-test-***
+   STRIPE_WEBHOOK_SECRET=whsec-***
+
+   # Run database migrations (optional)
    alembic upgrade head
 
    # Start development server (port 8000)
    python -m app.main
    ```
 
-   **Configure Payment Module (Optional)**
+4. **Configure Payment Module**
 
    ```bash
-   # Open a new terminal and execute the following commands
+   # Open a new terminal
    cd api/
    source venv/bin/activate
 
@@ -233,7 +285,7 @@ This is the simplest and fastest way to deploy, suitable for quick trials and pr
    STRIPE_WEBHOOK_SECRET=whsec_cexxx
    ```
 
-4. **Configure and run the frontend**
+5. **Configure and run the frontend**
 
    > Requirements: Node.js >= 18.19, pnpm >= 10.11
 
@@ -246,21 +298,24 @@ This is the simplest and fastest way to deploy, suitable for quick trials and pr
 
    # Configure environment variables
    cp .env.example .env
-   # Edit the .env file to configure API address, etc.
+   vim .env
+   # Add API address
+   NEXT_PUBLIC_API_URL=http://localhost:8000
 
    # Start development server (port 3000)
    pnpm dev
    ```
 
-5. **Access the application**
-   - **User Interface**: `http://localhost:3000`
-   - **Admin Dashboard**: `http://localhost:3000/admin`
-   - **Documentation**: `http://localhost:4000`
+6. **Access the application**
+   - **User Interface**: <http://localhost:3000>
+   - **Admin Dashboard**: <http://localhost:3000/admin>
+   - **API Docs**: <http://localhost:3000/v1/api/docs>
+   - **Project Docs**: <http://localhost:4000>
 
-   > [!NOTE]
-   >
-   > - **Testing Environment Mail Configuration**: You can set `AUTH_IS_DEBUG=True` and `AUTH_DEBUG_CODE=888888` to bypass email verification for direct login or registration, which is convenient for local development and testing.
-   > - **Auto Admin Setup**: The first user to register via email verification will automatically become an administrator!
+> [!NOTE]
+>
+> - **Testing Environment Mail Configuration**: You can set `AUTH_IS_DEBUG=True` and `AUTH_DEBUG_CODE=888888` to bypass email verification for direct login or registration, which is convenient for local development and testing.
+> - **Auto Admin Setup**: The first user to register via email verification will automatically become an administrator!
 
 ### 🚨 Common Issues
 
@@ -271,15 +326,16 @@ This is the simplest and fastest way to deploy, suitable for quick trials and pr
 - **AGENT fails to respond**:
   - **Check API Key**: Ensure the AGENT API Key is valid and has a sufficient balance.
   - **Check network**: Ensure the server can access the AGENT API.
-  - **Check model**: Confirm the model name is correct (e.g., `gpt-4o-mini`).
+  - **Check model**: Confirm the model name is correct (e.g., `gpt-4.1-mini`).
 - **Email fails to send**:
+  - **Cloud Provider Blocking**: Most cloud providers may block SMTP services. You can use [Resend](https://resend.com/) as an alternative.
   - **Testing Environment**: You can set `AUTH_IS_DEBUG=True` and `AUTH_DEBUG_CODE=888888` to bypass email verification for direct login, which is convenient for local development and testing.
 - **Payment module configuration failed**:
   - **Check Stripe**: Ensure the Stripe service is running.
   - **Check webhook secret**: Make sure the webhook secret is correct.
   - **Check Stripe account**: Verify that the Stripe account is set up correctly.
 
-## Project Architecture
+## Development Guide
 
 ### System Architecture Diagram
 
@@ -297,7 +353,7 @@ graph TD
 
     subgraph "Application Layer"
         APP_F["Frontend Application (Web)<br>Next.js, React, TypeScript"]
-        APP_B["Backend API<br>FastAPI, Python, SQLModel"]
+        APP_B["Backend API (Backend)<br>FastAPI, Python, SQLModel"]
     end
 
     subgraph "Data Layer"
@@ -317,38 +373,6 @@ graph TD
     APP_B --> D_RD
     APP_B --> D_AGENT
 ```
-
-### Core Modules
-
-#### Authentication Module
-
-- Email verification code login (passwordless)
-- JWT Token authentication
-- User permission management (user/admin)
-- Membership system (Free/Monthly/Yearly)
-
-#### AGENT Agent Module
-
-- Multi-platform integration: OpenAI, Dify
-- Streaming response handling
-- Model parameter configuration
-- Connection status monitoring
-
-#### Chat System Module
-
-- Real-time streaming chat
-- Message history management
-- Usage statistics
-- Markdown rendering
-
-#### Admin Dashboard Module
-
-- User management and statistics
-- Conversation record viewing
-- Agent configuration management
-- System monitoring panel
-
-## Development Guide
 
 ### Directory Structure
 
@@ -383,7 +407,7 @@ build-ai-template/
 2. **Database Migration**: Use Alembic to manage database versions.
 3. **Frontend Development**: Create React components in `web/components/`.
 4. **Styling**: Use Tailwind CSS + Shadcn UI.
-5. **Internationalization**: Add translations in `web/app/messages/`.
+5. **Internationalization**: Add translations for Chinese and English in `web/app/messages/`.
 6. **Test Deployment**: Use `deploy-test/` for test environment validation.
 
 ## Contributing
