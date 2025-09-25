@@ -141,7 +141,7 @@ This is the simplest and fastest way to deploy, suitable for quick trials and pr
    ```bash
    # AGENT Configuration (required)
    AGENT_API_KEY=sk-proj-***
-   AGENT_BASE_URL=https://api.openai.ai/v1/chat/completions
+   AGENT_BASE_URL=https://api.openai.com/v1/chat/completions
    AGENT_MODEL_NAME=gpt-4.1-mini
 
    # Mail Configuration (required for login verification codes)
@@ -242,7 +242,7 @@ Suitable for developers for feature development and customization.
 
    # AI Configuration (required)
    AGENT_API_KEY=sk-proj-***
-   AGENT_BASE_URL=https://api.openai.ai/v1/chat/completions
+   AGENT_BASE_URL=https://api.openai.com/v1/chat/completions
    AGENT_MODEL_NAME=gpt-4.1-mini
 
    # Mail Configuration (required for login verification codes)

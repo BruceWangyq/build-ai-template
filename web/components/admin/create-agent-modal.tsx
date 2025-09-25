@@ -256,7 +256,7 @@ export default function CreateAgentModal({
   const getSourcePresetUrls = (source: string) => {
     switch (source) {
       case 'llm':
-        return 'https://api.openai.com/v1/chat/completions';
+        return 'https://api.openai.com/v1/chat/completions/chat/completions';
       case 'dify':
         return 'https://api.dify.ai/v1/chat-messages';
       case 'fastgpt':
@@ -264,7 +264,7 @@ export default function CreateAgentModal({
       case 'coze':
         return 'https://api.coze.com/open_api/v2/chat';
       case 'custom':
-        return 'https://api.openai.com/v1/chat/completions';
+        return 'https://api.openai.com/v1/chat/completions/chat/completions';
       default:
         return '';
     }

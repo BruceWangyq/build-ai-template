@@ -68,7 +68,7 @@ class Settings:
 
     # openai
     AGENT_API_KEY: str = os.getenv("AGENT_API_KEY")
-    AGENT_BASE_URL: str = os.getenv("AGENT_BASE_URL", "https://api.openai.com/v1/chat/completions")
+    AGENT_BASE_URL: str = os.getenv("AGENT_BASE_URL", "https://api.openai.com/v1/chat/completions/chat/completions")
     AGENT_MODEL_NAME: str = os.getenv("AGENT_MODEL_NAME", "gpt-4.1-mini")
     AGENT_MODEL_TEMPERATURE: float = float(os.getenv("AGENT_MODEL_TEMPERATURE", "0.7"))
 

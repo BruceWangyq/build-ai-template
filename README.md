@@ -141,7 +141,7 @@
    ```bash
    # AI 配置（必填）
    AGENT_API_KEY=sk-proj-***
-   AGENT_BASE_URL=https://api.openai.ai/v1/chat/completions
+   AGENT_BASE_URL=https://api.openai.com/v1/chat/completions
    AGENT_MODEL_NAME=gpt-4.1-mini
 
    # 邮件配置（必填，用于登录验证码）
@@ -242,7 +242,7 @@
 
    # AI 配置（必填）
    AGENT_API_KEY=sk-proj-***
-   AGENT_BASE_URL=https://api.openai.ai/v1/chat/completions
+   AGENT_BASE_URL=https://api.openai.com/v1/chat/completions
    AGENT_MODEL_NAME=gpt-4.1-mini
 
    # 邮件配置（必填，用于登录验证码）
